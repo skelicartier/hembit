@@ -4,8 +4,6 @@ import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
-const HOME_PATHS = ['/', '/in/en', '/us/en', '/uk/en', '/eu/en'];
-
 function SearchIcon() {
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
@@ -92,7 +90,7 @@ export function Topbar() {
   };
 
   const actionLabel = isAuthenticated ? 'ACCOUNT' : 'LOGIN';
-  const isHome = HOME_PATHS.includes(location.pathname);
+  const isHome = location.pathname === '/';
   const useOverlayHeader = isHome && !openMenu && !mobileOpen;
 
   /* Desktop mega-menu */
@@ -233,7 +231,6 @@ export function Topbar() {
               <line x1="17" y1="3" x2="3" y2="17" />
             </svg>
           </button>
-          <span className="mob-overlay-brand-note">HEMBIT — INDEX</span>
           <button
             type="button"
             className="mob-search-btn"

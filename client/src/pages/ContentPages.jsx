@@ -48,9 +48,9 @@ function ContentLayout({ eyebrow, title, children }) {
   return (
     <main className="content-page">
       <div className="content-page-inner">
-        <p className="content-page-eyebrow" data-reveal>{eyebrow}</p>
-        <h1 data-reveal>{title}</h1>
-        <div className="content-page-body" data-reveal>{children}</div>
+        <p className="content-page-eyebrow">{eyebrow}</p>
+        <h1>{title}</h1>
+        <div className="content-page-body">{children}</div>
       </div>
     </main>
   );

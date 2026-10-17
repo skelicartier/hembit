@@ -89,24 +89,14 @@ export function ProductDetailsPage() {
         <h1 className="pdp-name">{product.name}</h1>
         <p className="pdp-series">{product.seriesName}</p>
 
-        {(product.sizes || []).length > 0 && (
-          <div className="pdp-size-row">
-            <span className="pdp-size-label">SIZE — {selectedSize}</span>
-            <div className="pdp-sizes" role="group" aria-label="Select size">
-              {(product.sizes || []).map((size) => (
-                <button
-                  key={size}
-                  type="button"
-                  className={`pdp-size-btn${selectedSize === size ? ' pdp-size-btn--active' : ''}`}
-                  aria-pressed={selectedSize === size}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        <div className="pdp-size-row">
+          <span className="pdp-size-label">SIZE</span>
+          <select value={selectedSize} onChange={(e) => setSelectedSize(e.target.value)}>
+            {(product.sizes || []).map((size) => (
+              <option key={size} value={size}>{size}</option>
+            ))}
+          </select>
+        </div>
 
         <p className="pdp-desc">{product.description}</p>
 

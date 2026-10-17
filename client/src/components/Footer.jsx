@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 
+const localizedHomePaths = ['/in/en', '/us/en', '/uk/en', '/eu/en'];
+
 export function Footer() {
+  const location = useLocation();
+  const isHome = location.pathname === '/' || localizedHomePaths.includes(location.pathname);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
@@ -10,54 +14,122 @@ export function Footer() {
     event.preventDefault();
     try {
       await api.post('/public/newsletter/subscribe', { email });
-      setMessage('SUBSCRIBED');
+      setMessage('Subscribed successfully');
       setEmail('');
     } catch (error) {
       setMessage(error.message);
     }
   };
 
+  /* ─── Home footer (unchanged full-page slide) ─── */
+  if (isHome) {
+    return (
+      <footer className="site-footer site-footer--home">
+        <div className="footer-inner">
+          <div className="footer-main-grid">
+            <div className="footer-col footer-version-col">
+              <RegionSelector />
+            </div>
+
+            <nav className="footer-links footer-col footer-links-main">
+              <Link to="/our-story">ABOUT US</Link>
+              <Link to="/founder-story">FOUNDER STORY</Link>
+              <Link to="/services">SERVICES</Link>
+            </nav>
+
+            <nav className="footer-links footer-col footer-links-legal">
+              <Link to="/privacy-policy">PRIVACY NOTICE</Link>
+              <Link to="/terms-of-use">TERMS OF USE</Link>
+            </nav>
+
+            <form className="newsletter-form" onSubmit={subscribe}>
+              <label htmlFor="newsletter-home">NEWSLETTER</label>
+              <div>
+                <input
+                  id="newsletter-home"
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button type="submit">JOIN</button>
+              </div>
+              {message && <small>{message}</small>}
+            </form>
+          </div>
+
+          <div className="footer-bottom-row">
+            <div className="footer-socials">
+              <a href="https://www.instagram.com/hembit.in?igsh=MXNkajJ4cHp2b3FxMQ==" target="_blank" rel="noreferrer">Instagram</a>
+              <a href="https://www.linkedin.com/company/hembit/" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href="https://youtube.com/@hembit.support?si=YpujeB-XSrYQ7fX1" target="_blank" rel="noreferrer">YouTube</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  /* ─── Same footer for all other pages (not full-page) ─── */
   return (
-    <footer className="site-footer">
+    <footer className="site-footer site-footer--compact">
       <div className="footer-inner">
-        <form className="footer-newsletter" onSubmit={subscribe}>
-          <input
-            type="email"
-            placeholder="EMAIL"
-            aria-label="Email address"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit">JOIN</button>
-          {message && <small>{message}</small>}
-        </form>
+        <div className="footer-main-grid">
+          <div className="footer-col footer-version-col">
+              <RegionSelector />
+          </div>
 
-        <div className="footer-line">
-          <p className="footer-copy">© {new Date().getFullYear()} HEMBIT</p>
-
-          <nav aria-label="Footer">
-            <Link to="/our-story">ABOUT</Link>
+          <nav className="footer-links footer-col footer-links-main">
+            <Link to="/our-story">ABOUT US</Link>
+            <Link to="/founder-story">FOUNDER STORY</Link>
             <Link to="/services">SERVICES</Link>
-            <Link to="/hb-productions">HB PRODUCTIONS</Link>
-            <Link to="/privacy-policy">PRIVACY</Link>
-            <Link to="/terms-of-use">TERMS</Link>
           </nav>
 
-          <nav aria-label="Social">
-            <a href="https://www.instagram.com/hembit.in?igsh=MXNkajJ4cHp2b3FxMQ==" target="_blank" rel="noreferrer">INSTAGRAM</a>
-            <a href="https://www.linkedin.com/company/hembit/" target="_blank" rel="noreferrer">LINKEDIN</a>
-            <a href="https://youtube.com/@hembit.support?si=YpujeB-XSrYQ7fX1" target="_blank" rel="noreferrer">YOUTUBE</a>
+          <nav className="footer-links footer-col footer-links-legal">
+            <Link to="/privacy-policy">PRIVACY NOTICE</Link>
+            <Link to="/terms-of-use">TERMS OF USE</Link>
           </nav>
 
-          <nav aria-label="Region">
-            <Link to="/in/en">IN</Link>
-            <Link to="/us/en">US</Link>
-            <Link to="/uk/en">UK</Link>
-            <Link to="/eu/en">EU</Link>
-          </nav>
+          <form className="newsletter-form" onSubmit={subscribe}>
+            <label htmlFor="newsletter-compact">NEWSLETTER</label>
+            <div>
+              <input
+                id="newsletter-compact"
+                type="email"
+                placeholder="Enter your email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button type="submit">JOIN</button>
+            </div>
+            {message && <small>{message}</small>}
+          </form>
+        </div>
+
+        <div className="footer-bottom-row">
+          <div className="footer-socials">
+            <a href="https://www.instagram.com/hembit.in?igsh=MXNkajJ4cHp2b3FxMQ==" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.linkedin.com/company/hembit/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://youtube.com/@hembit.support?si=YpujeB-XSrYQ7fX1" target="_blank" rel="noreferrer">YouTube</a>
+          </div>
         </div>
       </div>
     </footer>
+  );
+}
+
+function RegionSelector() {
+  return (
+    <div className="footer-region-selector">
+      <p className="footer-version">REGION / LANGUAGE</p>
+      <nav aria-label="Region and language">
+        <Link to="/in/en">INDIA / ENGLISH</Link>
+        <Link to="/us/en">UNITED STATES / ENGLISH</Link>
+        <Link to="/uk/en">UNITED KINGDOM / ENGLISH</Link>
+        <Link to="/eu/en">EUROPE / ENGLISH</Link>
+      </nav>
+    </div>
   );
 }
