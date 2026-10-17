@@ -38,7 +38,7 @@ export function ShopPage() {
 
   return (
     <div className="shop-page">
-      <header className="shop-head">
+      <header className="shop-head" data-reveal>
         <div className="shop-head-top">
           <span className="shop-head-label">
             {currentSearch ? 'SEARCH RESULTS' : `CATALOG — ${displayCategory.toUpperCase()}`}

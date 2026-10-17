@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 
 /**
  * Hairline scroll-progress readout — real page progress, accent on state.
- * Hidden on the home slider (body.home-view) via CSS.
  */
 export function ScrollProgress() {
   const barRef = useRef(null);

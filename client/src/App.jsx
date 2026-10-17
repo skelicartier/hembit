@@ -4,6 +4,8 @@ import { Topbar } from './components/Topbar';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ScrollProgress } from './components/ScrollProgress';
+import { Cursor } from './components/Cursor';
+import { Reveals } from './components/Reveals';
 import { AdminRoute, ProtectedRoute } from './components/Guards';
 import { HomePage } from './pages/HomePage';
 import { ShopPage } from './pages/ShopPage';
@@ -85,6 +87,7 @@ function RouteLoadingWrapper({ children }) {
         <LoadingScreen
           onFinished={handleFinished}
           waitForBackend={!backendWarmed.current}
+          minTime={backendWarmed.current ? 420 : 900}
         />
       )}
       {children}
@@ -120,7 +123,7 @@ function MainLayout({ children }) {
       <main key={`${location.pathname}${location.search}`} className="page-transition">
         {children}
       </main>
-      {!isHome && <Footer />}
+      <Footer />
     </div>
   );
 }
@@ -128,6 +131,8 @@ function MainLayout({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <Cursor />
+      <Reveals />
       <ScrollProgress />
       <ScrollToTop />
       <RouteSeo />

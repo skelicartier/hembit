@@ -65,7 +65,7 @@ export function Footer() {
       <div className="footer-inner">
         <Ticker />
 
-        <div className="footer-main-grid">
+        <div className="footer-main-grid" data-reveal>
           <div className="footer-col footer-brand-col">
             <p className={`footer-wordmark${isHome ? '' : ' footer-wordmark--compact'}`}>HEMBIT</p>
             <p className="footer-tagline">Modern clothing with intention</p>
@@ -106,7 +106,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="footer-bottom-row">
+        <div className="footer-bottom-row" data-reveal>
           <div className="footer-socials">
             <a href="https://www.instagram.com/hembit.in?igsh=MXNkajJ4cHp2b3FxMQ==" target="_blank" rel="noreferrer">Instagram</a>
             <a href="https://www.linkedin.com/company/hembit/" target="_blank" rel="noreferrer">LinkedIn</a>

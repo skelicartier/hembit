@@ -18,16 +18,21 @@ export function HBProductionsPage() {
   return (
     <section className="hb-list-page">
       <div className="hb-list-shell">
-        <header className="hb-list-head">
+        <header className="hb-list-head" data-reveal>
           <h1>HB PRODUCTIONS</h1>
         </header>
 
         <div className="hb-list-grid">
-          {sortedPosts.map((post) => {
+          {sortedPosts.map((post, index) => {
             const images = getPostImages(post);
             const cover = resolveStoryImageSrc(images[0] || '');
             return (
-              <article className="hb-story-card" key={post.id}>
+              <article
+                className="hb-story-card"
+                key={post.id}
+                data-reveal
+                style={{ '--rd': `${Math.min(index, 8) * 70}ms` }}
+              >
                 <Link className="hb-story-media" to={`/hb-productions/${encodeURIComponent(post.id)}`}>
                   {cover && !failedImages[post.id] ? (
                     <img

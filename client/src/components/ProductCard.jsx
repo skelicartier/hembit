@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" fill="#e9e6de"><rect width="400" height="500" fill="#e9e6de"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#6e6e6e" font-family="monospace" font-size="14">NO IMAGE</text></svg>'
+  '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" fill="#111110"><rect width="400" height="500" fill="#111110"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#7c796f" font-family="monospace" font-size="14">NO IMAGE</text></svg>'
 );
 
 export function ProductCard({ product, index }) {
@@ -15,7 +15,11 @@ export function ProductCard({ product, index }) {
   const next = (e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i + 1) % images.length); };
 
   return (
-    <article className="product-card">
+    <article
+      className="product-card"
+      data-reveal
+      style={Number.isFinite(index) ? { '--rd': `${Math.min(index, 8) * 70}ms` } : undefined}
+    >
       <Link to={`/product/${linkSlug}`} className="product-image-link">
         {Number.isFinite(index) && (
           <span className="pc-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>

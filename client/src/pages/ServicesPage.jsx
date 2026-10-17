@@ -59,13 +59,15 @@ export function ServicesPage() {
   return (
     <section className="services-client-page">
       <div className="services-client-inner">
-        <h1>{(content?.title || 'Client Service').toUpperCase()}</h1>
+        <h1 data-reveal>{(content?.title || 'Client Service').toUpperCase()}</h1>
 
         <div className="services-client-grid">
-          {blocks.map((block) => (
+          {blocks.map((block, index) => (
             <article
               className={`services-client-card${block.key === 'track-order' ? ' services-client-card-track' : ''}`}
               key={block.key}
+              data-reveal
+              style={{ '--rd': `${Math.min(index, 8) * 70}ms` }}
             >
               <h2>{block.title.toUpperCase()}</h2>
               <div className="services-client-copy">
