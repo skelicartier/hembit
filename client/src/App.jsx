@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { Topbar } from './components/Topbar';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
+import { ScrollProgress } from './components/ScrollProgress';
 import { AdminRoute, ProtectedRoute } from './components/Guards';
 import { HomePage } from './pages/HomePage';
 import { ShopPage } from './pages/ShopPage';
@@ -127,6 +128,7 @@ function MainLayout({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollProgress />
       <ScrollToTop />
       <RouteSeo />
       <RouteLoadingWrapper>

@@ -272,6 +272,7 @@ export function HeroSlider({ slides, children }) {
   const sliderRef = useRef(null);
   const brightnessCache = useRef({});   // url → 'light' | 'dark'
   const [heroTheme, setHeroTheme] = useState('dark');
+  const [failedMedia, setFailedMedia] = useState({});
 
   // Analyse the average brightness of the top strip of an image / video frame
   const analyseBrightness = useCallback((mediaEl, url) => {
@@ -381,6 +382,11 @@ export function HeroSlider({ slides, children }) {
 
   return (
     <section className="hero-slider" ref={sliderRef}>
+      {/* Column guides — the layout left visible */}
+      <div className="hero-guides" aria-hidden="true">
+        <span /><span /><span /><span />
+      </div>
+
       {/* Navigation dots */}
       <div className={`slider-dots${isProductSlide ? ' slider-dots--dark' : ''}`}>
         {Array.from({ length: totalPanels }).map((_, i) => (
@@ -393,6 +399,24 @@ export function HeroSlider({ slides, children }) {
           />
         ))}
       </div>
+
+      {/* Real position readout */}
+      {!isLastPanel && (
+        <div
+          className={`hero-index${isProductSlide ? ' hero-index--ink' : ''}`}
+          aria-hidden="true"
+        >
+          {String(activeIndex + 1).padStart(2, '0')} / {String(totalPanels).padStart(2, '0')}
+        </div>
+      )}
+      {!isLastPanel && (
+        <span
+          className={`hero-scroll-hint${isProductSlide ? ' hero-scroll-hint--ink' : ''}`}
+          aria-hidden="true"
+        >
+          SCROLL
+        </span>
+      )}
 
       {/* Image / video / product slides */}
       {panelSlides.map((slide, i) => {
@@ -515,9 +539,27 @@ export function HeroSlider({ slides, children }) {
               <>
                 <div className="hero-media">
                   {slide.type === 'video' ? (
-                    <video src={slide.url} autoPlay muted loop playsInline preload="metadata" />
+                    failedMedia[slide.__panelKey || slide.id] ? (
+                      <div className="hero-media-fallback">{slide.title || 'HEMBIT'}</div>
+                    ) : (
+                      <video
+                        src={slide.url}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        onError={() => setFailedMedia((prev) => ({ ...prev, [slide.__panelKey || slide.id]: true }))}
+                      />
+                    )
+                  ) : failedMedia[slide.__panelKey || slide.id] ? (
+                    <div className="hero-media-fallback">{slide.title || 'HEMBIT'}</div>
                   ) : (
-                    <img src={slide.url} alt={slide.title || 'Slide'} />
+                    <img
+                      src={slide.url}
+                      alt={slide.title || 'Slide'}
+                      onError={() => setFailedMedia((prev) => ({ ...prev, [slide.__panelKey || slide.id]: true }))}
+                    />
                   )}
                 </div>
                 {hasOverlay(slide) && <div className="hero-slide-mask" />}

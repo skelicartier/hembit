@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" fill="#f5f5f3"><rect width="400" height="500" fill="#f5f5f3"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#bbb" font-family="sans-serif" font-size="16">No Image</text></svg>'
+  '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" fill="#e9e6de"><rect width="400" height="500" fill="#e9e6de"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#6e6e6e" font-family="monospace" font-size="14">NO IMAGE</text></svg>'
 );
 
-export function ProductCard({ product }) {
+export function ProductCard({ product, index }) {
   const linkSlug = product.slug || product.id;
   const images = product.images?.length ? product.images : [PLACEHOLDER];
   const [idx, setIdx] = useState(0);
@@ -17,6 +17,10 @@ export function ProductCard({ product }) {
   return (
     <article className="product-card">
       <Link to={`/product/${linkSlug}`} className="product-image-link">
+        {Number.isFinite(index) && (
+          <span className="pc-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        )}
+        <span className="pc-flag" aria-hidden="true">[ + ]</span>
         <img
           src={images[idx]}
           alt={product.name}
@@ -39,6 +43,10 @@ export function ProductCard({ product }) {
       </Link>
       <div className="product-meta">
         <span className="pc-name">{product.name}</span>
+        <span className="pc-meta-right">
+          {product.seriesName && <span className="pc-series">{product.seriesName}</span>}
+          {product.displayPrice && <span className="pc-price">{product.displayPrice}</span>}
+        </span>
       </div>
     </article>
   );

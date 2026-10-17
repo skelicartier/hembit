@@ -34,34 +34,57 @@ export function ShopPage() {
   const selectedCategory = data.categories.find((category) => category.slug === currentCategory);
   const displayCategory = selectedCategory ? selectedCategory.name : "MEN";
 
+  const count = String(data.products.length).padStart(2, '0');
+
   return (
     <div className="shop-page">
-      {/* Title */}
-      <div className="shop-mob-title">
-        <span>
-          {currentSearch
-            ? `RESULTS FOR "${currentSearch.toUpperCase()}"`
-            : displayCategory.toUpperCase()}
-        </span>
-        {currentSearch && (
-          <button
-            type="button"
-            className="shop-clear-search"
-            onClick={() => setSearchParams({})}
-          >
-            CLEAR
-          </button>
-        )}
-      </div>
+      <header className="shop-head">
+        <div className="shop-head-top">
+          <span className="shop-head-label">
+            {currentSearch ? 'SEARCH RESULTS' : `CATALOG — ${displayCategory.toUpperCase()}`}
+          </span>
+          <span className="shop-head-count">[{count}]</span>
+        </div>
+        <h1>{currentSearch ? `“${currentSearch}”` : displayCategory}</h1>
+
+        <div className="shop-filters">
+          {currentSearch ? (
+            <button type="button" className="shop-clear-search" onClick={() => setSearchParams({})}>
+              CLEAR SEARCH
+            </button>
+          ) : seriesOptions.length > 0 ? (
+            <>
+              <button
+                type="button"
+                className={`shop-filter${!currentSeries ? ' shop-filter--active' : ''}`}
+                onClick={() => setSearchParams(currentCategory ? { category: currentCategory } : {})}
+              >
+                ALL
+              </button>
+              {seriesOptions.map((series) => (
+                <button
+                  key={series.id}
+                  type="button"
+                  className={`shop-filter${currentSeries === series.slug ? ' shop-filter--active' : ''}`}
+                  onClick={() => setSearchParams({ category: currentCategory, series: series.slug })}
+                >
+                  {series.name}
+                </button>
+              ))}
+            </>
+          ) : null}
+        </div>
+      </header>
+
       {loading ? (
-        <div className="page-status">Loading products...</div>
+        <div className="page-status">LOADING PRODUCTS</div>
       ) : data.products.length === 0 ? (
-        <div className="page-status">No products found.</div>
+        <div className="page-status">NO PRODUCTS FOUND</div>
       ) : (
         <section className="shop-grid-wrap">
           <div className="product-grid">
-            {data.products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {data.products.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
             ))}
           </div>
         </section>

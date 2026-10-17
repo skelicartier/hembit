@@ -231,6 +231,7 @@ export function Topbar() {
               <line x1="17" y1="3" x2="3" y2="17" />
             </svg>
           </button>
+          <span className="mob-overlay-brand-note">HEMBIT — INDEX</span>
           <button
             type="button"
             className="mob-search-btn"
