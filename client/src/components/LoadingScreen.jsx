@@ -91,9 +91,6 @@ export function LoadingScreen({ onFinished, waitForBackend = false, minTime = 90
 
   if (phase === 'done') return null;
 
-  const statusText = phase === 'fading' ? 'READY' : 'INITIALISING';
-  const percent = String(Math.round((phase === 'fading' ? 1 : progress) * 100)).padStart(3, '0');
-
   return (
     <div
       className={`loading-screen${phase === 'fading' ? ' loading-screen--fade-out' : ''}`}
@@ -112,11 +109,6 @@ export function LoadingScreen({ onFinished, waitForBackend = false, minTime = 90
               {char}
             </span>
           ))}
-        </div>
-        <span className="loading-screen-tag">MODERN CLOTHING — SYSTEM 2026</span>
-        <div className="loading-screen-meta">
-          <span>{statusText}</span>
-          <span className="loading-screen-counter">{percent}%</span>
         </div>
         <div className="loading-screen-track">
           <div

@@ -3,7 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-route
 import { Topbar } from './components/Topbar';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
-import { ScrollProgress } from './components/ScrollProgress';
 import { Cursor } from './components/Cursor';
 import { Reveals } from './components/Reveals';
 import { AdminRoute, ProtectedRoute } from './components/Guards';
@@ -123,7 +122,7 @@ function MainLayout({ children }) {
       <main key={`${location.pathname}${location.search}`} className="page-transition">
         {children}
       </main>
-      <Footer />
+      {!isHome && <Footer />}
     </div>
   );
 }
@@ -133,7 +132,6 @@ export default function App() {
     <BrowserRouter>
       <Cursor />
       <Reveals />
-      <ScrollProgress />
       <ScrollToTop />
       <RouteSeo />
       <RouteLoadingWrapper>

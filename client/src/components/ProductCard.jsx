@@ -21,10 +21,6 @@ export function ProductCard({ product, index }) {
       style={Number.isFinite(index) ? { '--rd': `${Math.min(index, 8) * 70}ms` } : undefined}
     >
       <Link to={`/product/${linkSlug}`} className="product-image-link">
-        {Number.isFinite(index) && (
-          <span className="pc-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-        )}
-        <span className="pc-flag" aria-hidden="true">[ + ]</span>
         <img
           src={images[idx]}
           alt={product.name}
